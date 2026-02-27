@@ -47,7 +47,13 @@
 
       <div class="form-group">
         <label>Account Size (USD)</label>
-        <input type="text" name="account_size" required>
+        <select name="account_size" required>
+        <option value="">Select range</option>
+        <option value="under_1k">Under $1,000</option>
+        <option value="1k_5k">$1,000 – $5,000</option>
+        <option value="5k_25k">$5,000 – $25,000</option>
+        <option value="25k_plus">$25,000+</option>
+  </select>
       </div>
       
       <div class="form-group">
