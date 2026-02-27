@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Private Access Request | Louis Andoh</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,38 +13,49 @@
     <h3>Private Advisory Application</h3>
 
     <p style="text-align:center; max-width:700px; margin: 0 auto 50px auto; color:#bbb;">
-      Advisory access is limited and selectively offered. 
+      Advisory access is limited and selectively offered.
       Applications are reviewed manually. Only serious traders will be considered.
     </p>
 
-    <form class="application-form">
+    <form 
+      class="application-form" 
+      action="https://formspree.io/f/mbdabyny" 
+      method="POST"
+    >
+
+      <!-- Optional: Email Subject -->
+      <input type="hidden" name="_subject" value="New Private Advisory Application">
 
       <div class="form-group">
         <label>Full Name</label>
-        <input type="text" required>
+        <input type="text" name="full_name" required>
       </div>
 
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" required>
+        <input type="email" name="email" required>
       </div>
 
       <div class="form-group">
         <label>Trading Experience (Years)</label>
-        <input type="number" required>
+        <input type="number" name="experience_years" min="0" required>
       </div>
 
       <div class="form-group">
         <label>Account Size (USD)</label>
-        <input type="text" required>
+        <input type="text" name="account_size" required>
       </div>
 
       <div class="form-group">
         <label>Why Should You Be Considered?</label>
-        <textarea rows="5" required></textarea>
+        <textarea name="application_reason" rows="5" required></textarea>
       </div>
 
       <button type="submit" class="btn">Submit Application</button>
+
+      <p style="margin-top:15px; font-size:13px; color:#777;">
+        Applications are reviewed within 48 hours. Approval is not guaranteed.
+      </p>
 
     </form>
   </div>
