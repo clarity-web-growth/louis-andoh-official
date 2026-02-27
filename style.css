@@ -109,7 +109,7 @@ nav a:hover {
 .hero p {
   font-size: 18px;
   color: var(--text-secondary);
-  max-width: 750px;
+  max-width: 680px;
   margin: 0 auto 30px auto;
 }
 
@@ -130,7 +130,7 @@ nav a:hover {
   padding: 14px 30px;
   background: var(--gold);
   color: #000;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   border-radius: var(--radius);
   transition: var(--transition);
@@ -140,6 +140,7 @@ nav a:hover {
 
 .btn:hover {
   background: #ffffff;
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.4); 
 }
 
 .btn-outline {
@@ -165,7 +166,7 @@ nav a:hover {
 
 .card {
   background: var(--bg-secondary);
-  padding: 30px;
+  padding: 35px;
   border-radius: var(--radius);
   border: 1px solid var(--border-dark);
   transition: var(--transition);
