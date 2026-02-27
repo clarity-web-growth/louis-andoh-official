@@ -237,3 +237,17 @@ footer {
   outline: none;
   border-color: var(--gold);
 }
+
+.form-group select {
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
