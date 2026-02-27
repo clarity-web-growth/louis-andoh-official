@@ -200,3 +200,40 @@ footer {
   color: var(--text-muted);
   font-size: 14px;
 }
+
+/* ===============================
+   APPLICATION FORM
+================================= */
+
+.application-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
