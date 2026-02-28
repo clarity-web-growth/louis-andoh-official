@@ -14,9 +14,13 @@
     <h3>Private Advisory Application</h3>
 
     <p style="text-align:center; max-width:700px; margin: 0 auto 40px auto; color:#bbb;">
-       Access to advisory is granted selectively.
-       Alignment with the Gold Execution Framework™ is required.
-    </p>
+       Private advisory consideration is limited to verified owners of 
+<strong>The Gold Execution Framework™ (Authority Edition)</strong>.
+ </p>
+
+<p style="text-align:center; font-size:13px; color:#999; margin-bottom:40px;">
+Ownership verification is required before application review.
+</p>
 
     <<p style="margin-top:15px; font-size:13px; color:#999; text-align:center;">
        Advisory capacity is controlled.
@@ -72,7 +76,12 @@
       <p style="margin:40px 0 25px 0; font-size:14px; color:#bbb;">
         Advisory access requires alignment with the doctrine. Please answer carefully.
       </p>
-
+      
+<div class="form-group">
+  <label>Doctrine Order ID</label>
+  <input type="text" name="order_id" required placeholder="Enter your purchase Order ID">
+</div>
+      
       <div class="form-group">
         <label>Have you studied The Gold Execution Framework™ Doctrine?</label>
         <select name="doctrine_studied" required>
@@ -134,11 +143,17 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form) {
     form.addEventListener("submit", function (e) {
 
+      const orderId = document.querySelector('[name="order_id"]').value.trim();
       const doctrine = document.querySelector('[name="doctrine_studied"]').value;
       const execution = document.querySelector('[name="execution_principle"]').value;
       const risk = document.querySelector('[name="risk_standard"]').value;
 
-      if (doctrine !== "yes" || execution !== "structure" || risk !== "1_2_percent") {
+      if (
+        orderId === "" ||
+        doctrine !== "yes" ||
+        execution !== "structure" ||
+        risk !== "1_2_percent"
+      ) {
         e.preventDefault();
         window.location.href = "not-qualified.html";
       }
@@ -147,6 +162,3 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
-
-</body>
-</html>
