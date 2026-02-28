@@ -78,7 +78,7 @@
 document.getElementById('pay-button').addEventListener('click', function () {
 
   var handler = PaystackPop.setup({
-    key: 'YOUR_PUBLIC_KEY_HERE', // Replace with your Paystack public key
+    key: 'https://paystack.shop/pay/gold-execution-framework', // Replace with your Paystack public key
     email: prompt("Enter your email for delivery:"),
     amount: 14700 * 100, // $147 in cents (Paystack uses kobo if NGN)
     currency: "USD",
