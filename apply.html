@@ -7,7 +7,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
+<script>
+document.querySelector(".application-form").addEventListener("submit", function(e) {
 
+  const doctrine = document.querySelector('[name="doctrine_studied"]').value;
+  const execution = document.querySelector('[name="execution_principle"]').value;
+  const risk = document.querySelector('[name="risk_standard"]').value;
+
+  if (doctrine !== "yes" || execution !== "structure" || risk !== "1_2_percent") {
+    e.preventDefault();
+    window.location.href = "not-qualified.html";
+  }
+
+});
+</script>
+  
 <section class="section">
   <div class="container">
     <h3>Private Advisory Application</h3>
