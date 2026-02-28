@@ -6,33 +6,20 @@
   <title>Private Access Request | Louis Andoh</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  
-<script>
-document.querySelector(".application-form").addEventListener("submit", function(e) {
 
-  const doctrine = document.querySelector('[name="doctrine_studied"]').value;
-  const execution = document.querySelector('[name="execution_principle"]').value;
-  const risk = document.querySelector('[name="risk_standard"]').value;
-
-  if (doctrine !== "yes" || execution !== "structure" || risk !== "1_2_percent") {
-    e.preventDefault();
-    window.location.href = "not-qualified.html";
-  }
-
-});
-</script>
-  
 <section class="section">
   <div class="container">
     <h3>Private Advisory Application</h3>
 
-    <p style="text-align:center; max-width:700px; margin: 0 auto 50px auto; color:#bbb;">
+    <p style="text-align:center; max-width:700px; margin: 0 auto 40px auto; color:#bbb;">
       Advisory access is limited and selectively offered.
       Applications are reviewed manually. Only serious traders will be considered.
     </p>
-    <p style="margin-top:15px; font-size:13px; color:#999; text-align:center;">
-       Current advisory capacity: Limited.
+
+    <p style="margin-bottom:40px; font-size:13px; color:#999; text-align:center;">
+      Current advisory capacity: Limited.
     </p>
 
     <form 
@@ -41,10 +28,11 @@ document.querySelector(".application-form").addEventListener("submit", function(
       method="POST"
     >
 
-      <!-- Optional: Email Subject -->
+      <!-- Formspree Configuration -->
       <input type="hidden" name="_subject" value="New Private Advisory Application">
-      <input type="hidden" name="_redirect" value="https://louis-andoh-official.vercel.app/">
-      
+      <input type="hidden" name="_redirect" value="https://louis-andoh-official.vercel.app/thank-you.html">
+
+      <!-- Basic Info -->
       <div class="form-group">
         <label>Full Name</label>
         <input type="text" name="full_name" required>
@@ -63,67 +51,69 @@ document.querySelector(".application-form").addEventListener("submit", function(
       <div class="form-group">
         <label>Account Size (USD)</label>
         <select name="account_size" required>
-        <option value="">Select range</option>
-        <option value="under_1k">Under $1,000</option>
-        <option value="1k_5k">$1,000 – $5,000</option>
-        <option value="5k_25k">$5,000 – $25,000</option>
-        <option value="25k_plus">$25,000+</option>
-  </select>
+          <option value="">Select range</option>
+          <option value="under_1k">Under $1,000</option>
+          <option value="1k_5k">$1,000 – $5,000</option>
+          <option value="5k_25k">$5,000 – $25,000</option>
+          <option value="25k_plus">$25,000+</option>
+        </select>
       </div>
-      
+
       <div class="form-group">
         <label>Are you willing to follow strict risk management rules without deviation?</label>
         <select name="risk_commitment" required>
-        <option value="">Select an option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-  </select>
-</div>
-      
-      <p style="margin-bottom:25px; font-size:14px; color:#bbb;">
-         Advisory access requires alignment with the doctrine. Please answer carefully.
-     </p>
-      
-<div class="form-group">
-  <label>Have you studied The Gold Execution Framework™ Doctrine?</label>
-  <select name="doctrine_studied" required>
-    <option value="">Select an option</option>
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-  </select>
-</div>
+          <option value="">Select an option</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
 
-<div class="form-group">
-  <label>According to the doctrine, what precedes execution?</label>
-  <select name="execution_principle" required>
-    <option value="">Select an option</option>
-    <option value="prediction">Prediction</option>
-    <option value="emotion">Emotion</option>
-    <option value="structure">Structure</option>
-  </select>
-</div>
+      <!-- Doctrine Alignment -->
+      <p style="margin:40px 0 25px 0; font-size:14px; color:#bbb;">
+        Advisory access requires alignment with the doctrine. Please answer carefully.
+      </p>
 
-<div class="form-group">
-  <label>Maximum recommended risk exposure per trade?</label>
-  <select name="risk_standard" required>
-    <option value="">Select an option</option>
-    <option value="5_percent">5%</option>
-    <option value="1_2_percent">1–2%</option>
-    <option value="10_percent">10%</option>
-  </select>
-</div>
-      
+      <div class="form-group">
+        <label>Have you studied The Gold Execution Framework™ Doctrine?</label>
+        <select name="doctrine_studied" required>
+          <option value="">Select an option</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>According to the doctrine, what precedes execution?</label>
+        <select name="execution_principle" required>
+          <option value="">Select an option</option>
+          <option value="prediction">Prediction</option>
+          <option value="emotion">Emotion</option>
+          <option value="structure">Structure</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Maximum recommended risk exposure per trade?</label>
+        <select name="risk_standard" required>
+          <option value="">Select an option</option>
+          <option value="5_percent">5%</option>
+          <option value="1_2_percent">1–2%</option>
+          <option value="10_percent">10%</option>
+        </select>
+      </div>
+
+      <!-- Written Response -->
       <div class="form-group">
         <label>Why Should You Be Considered?</label>
         <textarea name="application_reason" rows="5" required></textarea>
       </div>
 
       <button type="submit" class="btn">Submit Application</button>
-      
+
       <p style="margin-top:10px; font-size:13px; color:#999;">
-       Applicants with $5,000+ capital are prioritized.
+        Applicants with $5,000+ capital are prioritized.
       </p>
-      
+
       <p style="margin-top:15px; font-size:13px; color:#777;">
         Applications are reviewed within 48 hours. Approval is not guaranteed.
       </p>
@@ -135,6 +125,28 @@ document.querySelector(".application-form").addEventListener("submit", function(
 <footer>
   © 2026 Louis Andoh. All rights reserved.
 </footer>
+
+<!-- Doctrine Filter Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".application-form");
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+
+      const doctrine = document.querySelector('[name="doctrine_studied"]').value;
+      const execution = document.querySelector('[name="execution_principle"]').value;
+      const risk = document.querySelector('[name="risk_standard"]').value;
+
+      if (doctrine !== "yes" || execution !== "structure" || risk !== "1_2_percent") {
+        e.preventDefault();
+        window.location.href = "not-qualified.html";
+      }
+
+    });
+  }
+});
+</script>
 
 </body>
 </html>
