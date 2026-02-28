@@ -54,9 +54,9 @@
       Doctrine ownership is required before private advisory consideration.
     </p>
 
-    <a href="#" class="btn">
-      Acquire Authority Edition
-    </a>
+   <button id="pay-button" class="btn">
+          Acquire Authority Edition — $147
+</button>
 
     <p style="margin-top:30px; font-size:13px; color:#777;">
       Digital delivery. Order ID issued upon purchase.
@@ -71,3 +71,26 @@
 
 </body>
 </html>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<script>
+document.getElementById('pay-button').addEventListener('click', function () {
+
+  var handler = PaystackPop.setup({
+    key: 'YOUR_PUBLIC_KEY_HERE', // Replace with your Paystack public key
+    email: prompt("Enter your email for delivery:"),
+    amount: 14700 * 100, // $147 in cents (Paystack uses kobo if NGN)
+    currency: "USD",
+    ref: 'GEF-' + Math.floor((Math.random() * 1000000000) + 1),
+    callback: function(response){
+      window.location.href = "success.html?ref=" + response.reference;
+    },
+    onClose: function(){
+      alert('Transaction cancelled.');
+    }
+  });
+
+  handler.openIframe();
+});
+</script>
