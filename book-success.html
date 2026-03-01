@@ -28,9 +28,13 @@
     <a id="downloadBtn"
        href="#"
        class="btn"
-       style="display:inline-block; padding:14px 28px; background:#d4af37; color:#000; text-decoration:none; border-radius:4px; font-weight:600;">
-       Download The Framework
+       style="display:inline-block; padding:14px 28px; background:#d4af37; color:#000; text-decoration:none; border-radius:4px; font-weight:600; pointer-events:none; opacity:0.6;">
+       Preparing Secure Download...
     </a>
+
+    <p id="errorMsg" style="margin-top:25px; font-size:14px; color:#ff4d4d; display:none;">
+      Invalid payment session. Please contact support if this persists.
+    </p>
 
     <p style="margin-top:30px; font-size:14px; color:#777;">
       This material is proprietary. Redistribution is strictly prohibited.
@@ -44,20 +48,22 @@
 </footer>
 
 <script>
-  // Capture Paystack reference from URL
   const params = new URLSearchParams(window.location.search);
   const reference = params.get("reference");
 
-  if (reference) {
-    // Save reference locally
-    localStorage.setItem("paystack_reference", reference);
+  const downloadBtn = document.getElementById("downloadBtn");
+  const errorMsg = document.getElementById("errorMsg");
 
-    // Attach reference to download endpoint
-    const downloadBtn = document.getElementById("downloadBtn");
+  if (reference) {
+    // Attach Paystack reference securely
     downloadBtn.href = `/api/download?reference=${reference}`;
+    downloadBtn.textContent = "Download The Framework";
+    downloadBtn.style.pointerEvents = "auto";
+    downloadBtn.style.opacity = "1";
   } else {
-    // If no reference found
-    document.getElementById("downloadBtn").style.display = "none";
+    // No reference found → hide download
+    downloadBtn.style.display = "none";
+    errorMsg.style.display = "block";
   }
 </script>
 
