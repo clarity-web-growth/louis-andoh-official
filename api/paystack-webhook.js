@@ -2,6 +2,12 @@
 
 import crypto from "crypto";
 
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
@@ -11,6 +17,7 @@ export default async function handler(req, res) {
   const mailerliteApiKey = process.env.MAILERLITE_API_KEY;
   const groupId = process.env.MAILERLITE_GROUP_ID;
 
+  // 🔐 Verify Paystack signature
   const hash = crypto
     .createHmac("sha512", paystackSecret)
     .update(JSON.stringify(req.body))
@@ -22,11 +29,20 @@ export default async function handler(req, res) {
 
   const event = req.body;
 
+  // Only handle successful charges
   if (event.event === "charge.success") {
-    const email = event.data.customer.email;
-    const name = event.data.customer.first_name || "";
+    const { email, first_name } = event.data.customer;
+    const reference = event.data.reference;
+    const amount = event.data.amount; // amount in kobo
+    const paidAmount = amount / 100;
+
+    // 🔎 Verify correct product price (example: GHS 1697)
+    if (paidAmount !== 1697) {
+      return res.status(400).json({ error: "Invalid payment amount" });
+    }
 
     try {
+      // Add buyer to MailerLite group
       await fetch("https://connect.mailerlite.com/api/subscribers", {
         method: "POST",
         headers: {
@@ -36,7 +52,8 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           email: email,
           fields: {
-            name: name,
+            name: first_name || "",
+            paystack_reference: reference,
           },
           groups: [groupId],
         }),
