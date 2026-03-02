@@ -2,12 +2,6 @@
 
 import crypto from "crypto";
 
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
@@ -17,7 +11,10 @@ export default async function handler(req, res) {
   const mailerliteApiKey = process.env.MAILERLITE_API_KEY;
   const groupId = process.env.MAILERLITE_GROUP_ID;
 
-  // 🔐 Verify Paystack signature
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  // Verify Paystack signature
   const hash = crypto
     .createHmac("sha512", paystackSecret)
     .update(JSON.stringify(req.body))
@@ -29,20 +26,32 @@ export default async function handler(req, res) {
 
   const event = req.body;
 
-  // Only handle successful charges
   if (event.event === "charge.success") {
-    const { email, first_name } = event.data.customer;
     const reference = event.data.reference;
-    const amount = event.data.amount; // amount in kobo
-    const paidAmount = amount / 100;
+    const email = event.data.customer.email;
+    const name = event.data.customer.first_name || "";
+    const amount = event.data.amount;
 
-    // 🔎 Verify correct product price (example: GHS 1697)
-    if (paidAmount !== 1697) {
-      return res.status(400).json({ error: "Invalid payment amount" });
+    // 🔒 Verify amount (1697 GHS = 169700 kobo)
+    if (amount !== 169700) {
+      return res.status(400).send("Invalid payment amount");
     }
 
     try {
-      // Add buyer to MailerLite group
+      // ✅ Save reference in Supabase
+      await fetch(`${supabaseUrl}/rest/v1/downloads`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          reference: reference,
+        }),
+      });
+
+      // ✅ Add subscriber to MailerLite
       await fetch("https://connect.mailerlite.com/api/subscribers", {
         method: "POST",
         headers: {
@@ -52,16 +61,16 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           email: email,
           fields: {
-            name: first_name || "",
-            paystack_reference: reference,
+            name: name,
           },
           groups: [groupId],
         }),
       });
 
       return res.status(200).json({ success: true });
+
     } catch (error) {
-      return res.status(500).json({ error: "MailerLite failed" });
+      return res.status(500).json({ error: "Webhook processing failed" });
     }
   }
 
