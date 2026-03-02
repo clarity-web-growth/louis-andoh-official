@@ -21,10 +21,11 @@
     </p>
 
     <p style="color:#999; margin-bottom:40px;">
-      Advisory eligibility verification is conducted separately.
-      Your order reference has been securely recorded.
+      Your order reference has been verified and recorded.
+      Advisory eligibility review is conducted separately.
     </p>
 
+    <!-- Secure Download Button -->
     <a id="downloadBtn"
        href="#"
        class="btn"
@@ -36,7 +37,22 @@
       Invalid payment session. Please contact support if this persists.
     </p>
 
-    <p style="margin-top:30px; font-size:14px; color:#777;">
+    <!-- Advisory Positioning -->
+    <div style="margin-top:60px; border-top:1px solid #222; padding-top:40px;">
+
+      <p style="color:#999; margin-bottom:20px;">
+        Structured capital requires structured execution.
+      </p>
+
+      <a href="advisory.html"
+         class="btn"
+         style="display:inline-block; padding:12px 26px; background:#111; color:#d4af37; border:1px solid #d4af37; text-decoration:none; border-radius:4px; font-weight:500;">
+         Explore Private Advisory
+      </a>
+
+    </div>
+
+    <p style="margin-top:40px; font-size:13px; color:#666;">
       This material is proprietary. Redistribution is strictly prohibited.
     </p>
 
@@ -55,13 +71,11 @@
   const errorMsg = document.getElementById("errorMsg");
 
   if (reference) {
-    // Attach Paystack reference securely
     downloadBtn.href = `/api/download?reference=${reference}`;
     downloadBtn.textContent = "Download The Framework";
     downloadBtn.style.pointerEvents = "auto";
     downloadBtn.style.opacity = "1";
   } else {
-    // No reference found → hide download
     downloadBtn.style.display = "none";
     errorMsg.style.display = "block";
   }
