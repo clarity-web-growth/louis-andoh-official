@@ -1,4 +1,4 @@
-import { isUsed, markAsUsed } from "./used-references.js";
+import { supabase } from './lib/supabase.js';
 
 export default async function handler(req, res) {
   const { reference } = req.query;
@@ -8,12 +8,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Check if reference already used
-    if (isUsed(reference)) {
-      return res.status(403).send("Download already used.");
-    }
 
-    // Verify with Paystack
+    // 1️⃣ Verify with Paystack
     const verify = await fetch(
       `https://api.paystack.co/transaction/verify/${reference}`,
       {
@@ -25,19 +21,35 @@ export default async function handler(req, res) {
 
     const data = await verify.json();
 
-    if (data.status && data.data.status === "success") {
-
-      // Mark reference as used
-      markAsUsed(reference);
-
-      return res.redirect(
-        302,
-        `${req.headers.origin}/api/secure-files/gold-framework.pdf`
-      );
-
-    } else {
+    if (!data.status || data.data.status !== "success") {
       return res.status(403).send("Payment not verified.");
     }
+
+    // 2️⃣ Check if reference already used
+    const { data: existing } = await supabase
+      .from('downloads')
+      .select('*')
+      .eq('reference', reference)
+      .single();
+
+    if (existing) {
+      return res.status(403).send("Download already used.");
+    }
+
+    // 3️⃣ Insert reference (marks as used)
+    const { error } = await supabase
+      .from('downloads')
+      .insert([{ reference }]);
+
+    if (error) {
+      return res.status(500).send("Failed to record download.");
+    }
+
+    // 4️⃣ Serve file
+    return res.redirect(
+      302,
+      `${req.headers.origin}/api/secure-files/gold-framework.pdf`
+    );
 
   } catch (error) {
     return res.status(500).send("Verification failed.");
