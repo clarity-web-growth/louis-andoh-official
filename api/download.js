@@ -1,57 +1,39 @@
-import { supabase } from './lib/supabase.js';
+// /api/download.js
 
 export default async function handler(req, res) {
   const { reference } = req.query;
 
   if (!reference) {
-    return res.status(400).send("Missing payment reference");
+    return res.status(400).send("Missing reference");
   }
 
-  try {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    // 1️⃣ Verify with Paystack
-    const verify = await fetch(
-      `https://api.paystack.co/transaction/verify/${reference}`,
+  try {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/downloads?reference=eq.${reference}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
         },
       }
     );
 
-    const data = await verify.json();
+    const data = await response.json();
 
-    if (!data.status || data.data.status !== "success") {
-      return res.status(403).send("Payment not verified.");
+    if (!data || data.length === 0) {
+      return res.status(403).send("Unauthorized");
     }
 
-    // 2️⃣ Check if reference already used
-    const { data: existing } = await supabase
-      .from('downloads')
-      .select('*')
-      .eq('reference', reference)
-      .single();
-
-    if (existing) {
-      return res.status(403).send("Download already used.");
-    }
-
-    // 3️⃣ Insert reference (marks as used)
-    const { error } = await supabase
-      .from('downloads')
-      .insert([{ reference }]);
-
-    if (error) {
-      return res.status(500).send("Failed to record download.");
-    }
-
-    // 4️⃣ Serve file
+    // ✅ If reference exists → serve file
     return res.redirect(
       302,
-      `${req.headers.origin}/api/secure-files/gold-framework.pdf`
+      `${process.env.VERCEL_URL}/api/secure-files/gold-framework.pdf`
     );
 
   } catch (error) {
-    return res.status(500).send("Verification failed.");
+    return res.status(500).send("Server error");
   }
 }
