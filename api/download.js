@@ -1,25 +1,38 @@
-import fs from "fs";
-import path from "path";
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { reference } = req.query;
 
   if (!reference) {
-    return res.status(403).send("Unauthorized");
+    return res.status(400).send("Missing payment reference");
   }
 
-  const filePath = path.join(process.cwd(), "api/secure-files/gold-framework.pdf");
+  try {
+    // Verify payment with Paystack
+    const verify = await fetch(
+      `https://api.paystack.co/transaction/verify/${reference}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        },
+      }
+    );
 
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send("File not found");
+    const data = await verify.json();
+
+    // Check if payment is successful
+    if (
+      data.status &&
+      data.data.status === "success"
+    ) {
+      // Payment verified → serve file
+      return res.redirect(
+        302,
+        `${req.headers.origin}/api/secure-files/gold-framework.pdf`
+      );
+    } else {
+      return res.status(403).send("Payment not verified");
+    }
+
+  } catch (error) {
+    return res.status(500).send("Verification failed");
   }
-
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader(
-    "Content-Disposition",
-    "attachment; filename=The_Gold_Execution_Framework_Authority_Edition.pdf"
-  );
-
-  const fileStream = fs.createReadStream(filePath);
-  fileStream.pipe(res);
 }
