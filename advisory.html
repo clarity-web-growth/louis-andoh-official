@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Private Advisory | Louis Andoh</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Advisory | Louis Andoh</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <section class="section">
   <div class="container" style="max-width:900px; text-align:center;">
 
     <h2 style="color:#d4af37; margin-bottom:30px;">
-      Private Gold Execution Advisory
+      Private Execution Advisory
     </h2>
 
-    <p style="color:#ccc; font-size:18px; margin-bottom:40px;">
-      Structured refinement for capital-based traders.
+    <p style="color:#bbb; font-size:18px; max-width:700px; margin:0 auto 30px;">
+      Structured calibration, risk architecture refinement, and structural decision discipline.
     </p>
 
-    <p style="color:#999; margin-bottom:50px;">
-      This advisory operates in small cohort format (2–5 traders maximum).
-      The objective is not signal distribution, but execution calibration,
-      risk architecture refinement, and structural decision discipline.
+    <h3 style="color:#d4af37; margin-top:50px;">Eligibility Standard</h3>
+    <ul style="color:#bbb; line-height:1.8; text-align:left; max-width:600px; margin:20px auto;">
+      <li>$5,000+ active trading capital</li>
+      <li>Defined execution model</li>
+      <li>Risk capped at 1–2% per trade</li>
+      <li>Journaled trading history</li>
+    </ul>
+
+    <h3 style="color:#d4af37; margin-top:50px;">Not Structured For</h3>
+    <ul style="color:#bbb; line-height:1.8; text-align:left; max-width:600px; margin:20px auto;">
+      <li>Signal dependency</li>
+      <li>Emotional scalping</li>
+      <li>Under-capitalized speculation</li>
+      <li>Undisciplined risk behavior</li>
+    </ul>
+
+    <p style="margin-top:40px; color:#888; font-size:14px;">
+      Advisory consideration requires documented study of The Gold Execution Framework™ (Authority Edition).
     </p>
 
-    <div style="text-align:left; max-width:700px; margin:0 auto;">
+    <div style="margin-top:40px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
 
-      <h3 style="color:#d4af37;">Eligibility Standard</h3>
-      <ul style="color:#bbb; line-height:1.8;">
-        <li>$5,000+ active trading capital</li>
-        <li>Defined execution model</li>
-        <li>Risk exposure capped at 1–2% per trade</li>
-        <li>Journaled trading history</li>
-      </ul>
+      <!-- Study Button -->
+      <a href="doctrine.html"
+         class="btn"
+         style="padding:14px 28px; background:#d4af37; color:#000; text-decoration:none; border-radius:4px; font-weight:600;">
+         Study The Framework
+      </a>
 
-      <br>
-
-      <h3 style="color:#d4af37;">Not Structured For</h3>
-      <ul style="color:#bbb; line-height:1.8;">
-        <li>Signal dependency</li>
-        <li>High-frequency emotional scalping</li>
-        <li>Under-capitalized speculation</li>
-        <li>Undisciplined risk behavior</li>
-      </ul>
+      <!-- Locked Application Button -->
+      <a id="applyBtn"
+         href="#"
+         class="btn"
+         style="padding:14px 28px; border:1px solid #d4af37; color:#d4af37; text-decoration:none; border-radius:4px; font-weight:600; opacity:0.5; pointer-events:none;">
+         Proceed To Application
+      </a>
 
     </div>
 
-    <br><br>
-
-    <p style="color:#999; margin-bottom:30px;">
-      Cohort access is limited. Applications are reviewed selectively.
-    </p>
-    
-   <p style="margin-top:20px; color:#999;">
-      Two annual cohort cycles (January–March and July–September).
-      Approved applicants outside enrollment windows are placed on priority waitlist.
-  </p>
-    
-    <p style="color:#999; margin-bottom:20px;">
-       Advisory consideration requires prior study of 
-       The Gold Execution Framework™ (Authority Edition).
-  </p>
-
-      <a href="doctrine.html" class="btn" style="margin-right:15px;">
-         Study The Framework
-    </a>
-
-     <a href="apply.html" class="btn" style="background:#111; color:#d4af37; border:1px solid #d4af37;">
-        Proceed To Application
-    </a>
-
-    <p style="margin-top:40px; font-size:13px; color:#666;">
-      Pricing and structural details are disclosed after qualification review.
+    <p style="margin-top:20px; font-size:13px; color:#777;">
+      Application unlocks after verified ownership.
     </p>
 
   </div>
 </section>
 
 <footer>
-  © 2026 Louis Andoh. All rights reserved.
+© 2026 Louis Andoh. All rights reserved.
 </footer>
+
+<script>
+  // Optional: If user purchased and came with reference param
+  const params = new URLSearchParams(window.location.search);
+  const reference = params.get("reference");
+
+  const applyBtn = document.getElementById("applyBtn");
+
+  if (reference) {
+    applyBtn.href = "apply.html?reference=" + reference;
+    applyBtn.style.opacity = "1";
+    applyBtn.style.pointerEvents = "auto";
+  }
+</script>
 
 </body>
 </html>
