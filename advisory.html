@@ -74,19 +74,25 @@ const params = new URLSearchParams(window.location.search);
 const reference = params.get("reference");
 const applyBtn = document.getElementById("applyBtn");
 
+async function verifyOwnership(ref) {
+  try {
+    const res = await fetch(`/api/verify-reference?reference=${ref}`);
+    const data = await res.json();
+
+    if (data.valid) {
+      applyBtn.href = "apply.html?reference=" + ref;
+      applyBtn.style.opacity = "1";
+      applyBtn.style.pointerEvents = "auto";
+    } else {
+      console.warn("Invalid reference.");
+    }
+  } catch (error) {
+    console.error("Verification failed.");
+  }
+}
+
 if (reference) {
-  fetch(`/api/verify-reference?reference=${reference}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.valid) {
-        applyBtn.href = "apply.html?reference=" + reference;
-        applyBtn.style.opacity = "1";
-        applyBtn.style.pointerEvents = "auto";
-      }
-    })
-    .catch(() => {
-      // silently fail — keep locked
-    });
+  verifyOwnership(reference);
 }
 </script>
 
