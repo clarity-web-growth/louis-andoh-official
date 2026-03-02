@@ -26,7 +26,7 @@
       To confirm your seat, complete enrollment below.
     </p>
 
-    <a href="YOUR_PAYSTACK_ADVISORY_LINK"
+    <a href="https://paystack.shop/pay/private_excution_advisory"
        class="btn"
        style="margin-top:30px;">
        Confirm Advisory Enrollment – $2,100
@@ -42,6 +42,31 @@
 <footer>
 © 2026 Louis Andoh. All rights reserved.
 </footer>
+  
+<script>
+const params = new URLSearchParams(window.location.search);
+const reference = params.get("reference");
 
+async function verifyApproval(ref) {
+  try {
+    const res = await fetch(`/api/verify-enrollment?reference=${ref}`);
+    const data = await res.json();
+
+    if (!data.valid) {
+      window.location.href = "advisory.html";
+    }
+
+  } catch (error) {
+    window.location.href = "advisory.html";
+  }
+}
+
+if (!reference) {
+  window.location.href = "advisory.html";
+} else {
+  verifyApproval(reference);
+}
+</script>
+  
 </body>
 </html>
