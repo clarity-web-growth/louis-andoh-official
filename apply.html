@@ -83,15 +83,6 @@ Ownership verification is required before application review.
          Your Order ID will be cross-referenced before review.
     </p>
       
-<div class="form-group">
-  <label>Doctrine Order ID</label>
-  <input type="text" name="order_id" required placeholder="Enter your purchase Order ID">
-</div>
-      
-     <p style="font-size:12px; color:#777; margin-top:8px;">
-        Applications without valid purchase verification are automatically rejected.
-    </p> 
-      
       <div class="form-group">
         <label>Have you studied The Gold Execution Framework™ Doctrine?</label>
         <select name="doctrine_studied" required>
@@ -147,28 +138,51 @@ Ownership verification is required before application review.
 
 <!-- Doctrine Filter Script -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+
+  const params = new URLSearchParams(window.location.search);
+  const reference = params.get("reference");
+
+  // If no reference → redirect immediately
+  if (!reference) {
+    window.location.href = "advisory.html";
+    return;
+  }
+
+  // Verify reference with backend
+  try {
+    const res = await fetch(`/api/verify-reference?reference=${reference}`);
+    const data = await res.json();
+
+    if (!data.valid) {
+      window.location.href = "advisory.html";
+      return;
+    }
+
+  } catch (error) {
+    window.location.href = "advisory.html";
+    return;
+  }
+
+  // Secure submission filter
   const form = document.querySelector(".application-form");
 
-  if (form) {
-    form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", function (e) {
 
-      const orderId = document.querySelector('[name="order_id"]').value.trim();
-      const doctrine = document.querySelector('[name="doctrine_studied"]').value;
-      const execution = document.querySelector('[name="execution_principle"]').value;
-      const risk = document.querySelector('[name="risk_standard"]').value;
+    const doctrine = document.querySelector('[name="doctrine_studied"]').value;
+    const execution = document.querySelector('[name="execution_principle"]').value;
+    const risk = document.querySelector('[name="risk_standard"]').value;
 
-      if (
-        orderId === "" ||
-        doctrine !== "yes" ||
-        execution !== "structure" ||
-        risk !== "1_2_percent"
-      ) {
-        e.preventDefault();
-        window.location.href = "not-qualified.html";
-      }
+    if (
+      doctrine !== "yes" ||
+      execution !== "structure" ||
+      risk !== "1_2_percent"
+    ) {
+      e.preventDefault();
+      window.location.href = "not-qualified.html";
+    }
 
-    });
-  }
+  });
+
 });
 </script>
