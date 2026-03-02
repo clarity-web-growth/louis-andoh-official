@@ -1,5 +1,8 @@
 // /api/download.js
 
+import fs from "fs";
+import path from "path";
+
 export default async function handler(req, res) {
   const { reference } = req.query;
 
@@ -27,11 +30,23 @@ export default async function handler(req, res) {
       return res.status(403).send("Unauthorized");
     }
 
-    // ✅ If reference exists → serve file
-    return res.redirect(
-      302,
-      `${process.env.VERCEL_URL}/api/secure-files/gold-framework.pdf`
+    // ✅ Serve the PDF directly
+    const filePath = path.join(
+      process.cwd(),
+      "api",
+      "secure-files",
+      "gold-framework.pdf"
     );
+
+    const file = fs.readFileSync(filePath);
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=Gold-Framework.pdf"
+    );
+
+    return res.status(200).send(file);
 
   } catch (error) {
     return res.status(500).send("Server error");
