@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `${supabaseUrl}/rest/v1/downloads?reference=eq.${reference}&applied=eq.false`,
+      `${supabaseUrl}/rest/v1/advisory_access?book_reference=eq.${reference}&approved=eq.true&enrollment_paid=eq.false`,
       {
         headers: {
           apikey: supabaseKey,
