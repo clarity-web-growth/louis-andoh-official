@@ -26,11 +26,11 @@
       To confirm your seat, complete enrollment below.
     </p>
 
-   <a id="enrollBtn"
+  <a id="enrollBtn"
    href="#"
    class="btn"
    style="margin-top:30px;">
-   Confirm Advisory Enrollment – $2,100
+   Confirm Advisory Enrollment – 36,600 GHS
  </a>
 
     <p style="margin-top:25px; font-size:13px; color:#777;">
@@ -51,10 +51,34 @@ const enrollBtn = document.getElementById("enrollBtn");
 
 if (!reference) {
   window.location.href = "advisory.html";
-} else {
-  // Attach reference to Paystack link as metadata
-  enrollBtn.href = `https://paystack.shop/pay/private_excution_advisory?reference=${reference}`;
 }
+
+enrollBtn.addEventListener("click", async function () {
+
+  try {
+    const res = await fetch("/api/create-advisory-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        reference: reference,
+        email: "CLIENT_EMAIL_PLACEHOLDER"
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.authorization_url) {
+      window.location.href = data.authorization_url;
+    } else {
+      alert("Payment initialization failed.");
+    }
+
+  } catch (error) {
+    alert("Server error.");
+  }
+});
 </script>
   
 </body>
