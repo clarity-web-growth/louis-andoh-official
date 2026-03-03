@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   if (event.event === "charge.success") {
 
     const amount = event.data.amount;
-    const reference = event.data.metadata?.reference;
+    const reference = event.data.metadata?.book_reference;
 
     // Verify advisory payment amount
     if (amount !== 3660000) { 
@@ -35,20 +35,20 @@ export default async function handler(req, res) {
     }
 
     try {
-      await fetch(
-        `${supabaseUrl}/rest/v1/advisory_access?book_reference=eq.${reference}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-          },
-          body: JSON.stringify({
-            enrollment_paid: true
-          }),
-        }
-      );
+    await fetch(
+   `${supabaseUrl}/rest/v1/advisory_access?book_reference=eq.${reference}`,
+   {
+     method: "PATCH",
+     headers: {
+      "Content-Type": "application/json",
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    body: JSON.stringify({
+      enrollment_paid: true
+    }),
+  }
+);
 
       return res.status(200).json({ success: true });
 
