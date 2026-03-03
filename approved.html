@@ -26,11 +26,12 @@
       To confirm your seat, complete enrollment below.
     </p>
 
-    <a href="https://paystack.shop/pay/private_excution_advisory"
-       class="btn"
-       style="margin-top:30px;">
-       Confirm Advisory Enrollment – $2,100
-    </a>
+   <a id="enrollBtn"
+   href="#"
+   class="btn"
+   style="margin-top:30px;">
+   Confirm Advisory Enrollment – $2,100
+ </a>
 
     <p style="margin-top:25px; font-size:13px; color:#777;">
       Limited to 5 traders per cycle.
@@ -46,25 +47,13 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 const reference = params.get("reference");
-
-async function verifyApproval(ref) {
-  try {
-    const res = await fetch(`/api/verify-enrollment?reference=${ref}`);
-    const data = await res.json();
-
-    if (!data.valid) {
-      window.location.href = "advisory.html";
-    }
-
-  } catch (error) {
-    window.location.href = "advisory.html";
-  }
-}
+const enrollBtn = document.getElementById("enrollBtn");
 
 if (!reference) {
   window.location.href = "advisory.html";
 } else {
-  verifyApproval(reference);
+  // Attach reference to Paystack link as metadata
+  enrollBtn.href = `https://paystack.shop/pay/private_excution_advisory?reference=${reference}`;
 }
 </script>
   
