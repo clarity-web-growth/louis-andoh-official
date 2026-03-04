@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Louis Andoh | Institutional Gold Framework</title>
+
 <link rel="stylesheet" href="style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -30,26 +35,52 @@
 
   </div>
 </section>
-  
-<div style="text-align:center; margin-top:30px;">
-    <a href="https://paystack.shop/pay/gold-execution-framework"
-       style="
-          display:inline-block;
-          background:#d4af37;
-          color:#000;
-          padding:16px 32px;
-          border-radius:8px;
-          text-decoration:none;
-          font-weight:700;
-          font-size:16px;
-          letter-spacing:0.5px;
-       ">
-       Secure Your Copy – GHS 1,697
-    </a>
+
+
+<div style="text-align:center; margin-top:40px;">
+
+<input
+id="email-input"
+type="email"
+placeholder="Enter email for delivery"
+style="
+margin-bottom:15px;
+padding:14px;
+width:280px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
+color:#fff;
+font-size:14px;
+"
+/>
+
+<br>
+
+<button
+id="pay-button"
+style="
+display:inline-block;
+background:#d4af37;
+color:#000;
+padding:16px 32px;
+border-radius:8px;
+border:none;
+font-weight:700;
+font-size:16px;
+letter-spacing:0.5px;
+cursor:pointer;
+">
+Secure Your Copy — GHS 1,697
+</button>
+
 </div>
-  
+
+
+
 <section id="framework" class="section">
   <div class="container">
+
     <h3>The Framework</h3>
 
     <div class="cards">
@@ -79,14 +110,19 @@
       </div>
 
     </div>
+
   </div>
 </section>
-    
+
+
+
 <section class="section">
   <div class="container">
+
     <h3>Who This Is For</h3>
 
     <div class="cards">
+
       <div class="card">
         <h4>✔ Serious Capital</h4>
         <p>Traders focused on capital preservation and asymmetric risk — not gambling.</p>
@@ -101,30 +137,96 @@
         <h4>✖ Not For Signal Seekers</h4>
         <p>If you are looking for shortcuts, hype, or daily trade alerts — this is not for you.</p>
       </div>
-    </div>
-  </div>
-</section>
-    
-   <section id="book" class="section">
-  <div class="container">
-    <h3>The Foundational Text</h3>
 
-    <div class="card" style="text-align:center; max-width:800px; margin:0 auto;">
-      <h4>The Gold Execution Framework™</h4>
-      <p>
-        A structural doctrine defining liquidity mechanics,
-        asymmetric risk architecture, and execution standards.
-      </p>
-      <p style="margin-top:15px; color:#999;">
-        This text establishes the principles that govern all advisory decisions.
-      </p>
     </div>
+
   </div>
 </section>
-    
+
+
+
+<section id="book" class="section">
+
+<div class="container">
+
+<h3>The Foundational Text</h3>
+
+<div class="card" style="text-align:center; max-width:800px; margin:0 auto;">
+
+<h4>The Gold Execution Framework™</h4>
+
+<p>
+A structural doctrine defining liquidity mechanics,
+asymmetric risk architecture, and execution standards.
+</p>
+
+<p style="margin-top:15px; color:#999;">
+This text establishes the principles that govern all advisory decisions.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
 <footer>
-    <p>© 2026 Louis Andoh. All rights reserved.</p>
+<p>© 2026 Louis Andoh. All rights reserved.</p>
 </footer>
+
+
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<script>
+
+window.onload = function(){
+
+const button = document.getElementById("pay-button");
+
+button.onclick = function(){
+
+const email = document.getElementById("email-input").value;
+
+if(!email){
+alert("Please enter your email.");
+return;
+}
+
+var handler = PaystackPop.setup({
+
+key: "pk_live_aaf933cf339451d84a1d96f85833a663a9720a99",
+
+email: email,
+
+amount: 169700,
+
+currency: "GHS",
+
+ref: "GEF-" + Date.now(),
+
+callback: function(response){
+
+window.location.href =
+"/book-success.html?reference=" + response.reference;
+
+},
+
+onClose: function(){
+alert("Transaction cancelled.");
+}
+
+});
+
+handler.openIframe();
+
+};
+
+};
+
+</script>
 
 </body>
 </html>
