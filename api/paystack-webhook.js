@@ -47,13 +47,15 @@ module.exports = async function handler(req, res) {
         headers: {
           "Content-Type": "application/json",
           apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=minimal"
         },
         body: JSON.stringify({
           reference: reference,
-          email: email
+          applied: false,
+          enrolled: false
         })
-      });
+     });
 
       await fetch("https://connect.mailerlite.com/api/subscribers", {
         method: "POST",
