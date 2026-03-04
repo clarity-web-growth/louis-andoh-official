@@ -1,4 +1,7 @@
+import crypto from "crypto";
+
 export default async function handler(req, res) {
+
   const { reference } = req.query;
 
   if (!reference) {
@@ -9,6 +12,8 @@ export default async function handler(req, res) {
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   try {
+
+    // Check if advisory applicant is approved but not yet enrolled
     const response = await fetch(
       `${supabaseUrl}/rest/v1/advisory_access?book_reference=eq.${reference}&approved=eq.true&enrollment_paid=eq.false`,
       {
@@ -25,9 +30,40 @@ export default async function handler(req, res) {
       return res.status(200).json({ valid: false });
     }
 
-    return res.status(200).json({ valid: true });
+    // Generate secure token
+    const token = crypto.randomBytes(16).toString("hex");
+
+    // Save token in downloads table
+    await fetch(
+      `${supabaseUrl}/rest/v1/downloads?reference=eq.${reference}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          download_token: token
+        })
+      }
+    );
+
+    // Return validation + token
+    return res.status(200).json({
+      valid: true,
+      token: token
+    });
 
   } catch (error) {
-    return res.status(500).json({ valid: false });
+
+    console.error(error);
+
+    return res.status(500).json({
+      valid: false
+    });
+
   }
+
 }
