@@ -4,11 +4,11 @@ import fs from "fs";
 import path from "path";
 
 export default async function handler(req, res) {
-  const { reference } = req.query;
+  const { token } = req.query;
 
-  if (!reference) {
-    return res.status(400).send("Missing reference");
-  }
+if (!token) {
+  return res.status(400).send("Missing token");
+}
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   try {
 
     const response = await fetch(
-      `${supabaseUrl}/rest/v1/downloads?reference=eq.${reference}`,
+      `${supabaseUrl}/rest/v1/downloads?download_token=eq.${token}`
       {
         headers: {
           apikey: supabaseKey,
