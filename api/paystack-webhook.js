@@ -31,10 +31,13 @@ export default async function handler(req, res) {
   const email = event.data.customer.email;
 
   // -----------------------------
-  // 🟡 BOOK PURCHASE (36,600 GHS)
+  // 🟡 BOOK PURCHASE (TEST MODE 2 GHS)
   // -----------------------------
-  if (amount === 169700) { // <-- KEEP your original book amount here if different
+  if (amount === 200) {
+
     const reference = event.data.reference;
+
+    console.log("Book purchase webhook received:", reference);
 
     try {
       await fetch(`${supabaseUrl}/rest/v1/downloads`, {
@@ -65,14 +68,15 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
 
     } catch (error) {
+      console.error("Book webhook failed:", error);
       return res.status(500).json({ error: "Book webhook failed" });
     }
   }
 
   // -----------------------------
-  // 🔴 ADVISORY PAYMENT (36,600 GHS)
+  // 🔴 ADVISORY PAYMENT
   // -----------------------------
-  if (amount === 3660000) { // 36,600 GHS in pesewas
+  if (amount === 3660000) {
 
     const bookReference = event.data.metadata?.book_reference;
 
@@ -99,9 +103,13 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
 
     } catch (error) {
+      console.error("Advisory webhook failed:", error);
       return res.status(500).json({ error: "Advisory webhook failed" });
     }
   }
+
+  return res.status(200).json({ received: true });
+}
 
   return res.status(200).json({ received: true });
 }
