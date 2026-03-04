@@ -1,96 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>The Gold Execution Framework™ (Authority Edition)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<section class="section">
-  <div class="container" style="max-width:800px; text-align:center;">
-
-    <h2 style="color:#d4af37; margin-bottom:20px;">
-      THE GOLD EXECUTION FRAMEWORK™
-    </h2>
-
-    <p style="color:#aaa; letter-spacing:1px; margin-bottom:30px;">
-      AUTHORITY EDITION
-    </p>
-
-    <p style="font-size:18px; color:#ccc; margin-bottom:40px; line-height:1.8;">
-      A structural execution doctrine defining liquidity mechanics,
-      asymmetric risk architecture, and capital preservation standards.
-    </p>
-
-    <p style="color:#999; margin-bottom:40px;">
-      This text governs all advisory decisions and execution standards.
-      It is not a trading tips manual.
-      It is a framework for institutional alignment.
-    </p>
-
-    <div style="border:1px solid #222; padding:30px; border-radius:8px; margin-bottom:40px;">
-      <h3 style="margin-bottom:15px;">Who This Is For</h3>
-      <p style="color:#bbb;">
-        Serious capital allocators.<br>
-        Process-driven traders.<br>
-        Individuals seeking structural execution clarity.
-      </p>
-    </div>
-
-    <div style="border:1px solid #222; padding:30px; border-radius:8px; margin-bottom:40px;">
-      <h3 style="margin-bottom:15px;">Who This Is Not For</h3>
-      <p style="color:#777;">
-        Signal seekers.<br>
-        Emotional traders.<br>
-        Individuals seeking shortcuts.
-      </p>
-    </div>
-
-    <h3 style="margin-bottom:20px;">Authority Edition — $147</h3>
-
-    <p style="color:#aaa; margin-bottom:30px;">
-      Doctrine ownership is required before private advisory consideration.
-    </p>
-
-   <button id="pay-button" class="btn">
-          Acquire Authority Edition — $147
-</button>
-
-    <p style="margin-top:30px; font-size:13px; color:#777;">
-      Digital delivery. Order ID issued upon purchase.
-    </p>
-
-  </div>
-</section>
-
-<footer>
-  © 2026 Louis Andoh. All rights reserved.
-</footer>
-
-</body>
-</html>
-
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
 document.getElementById('pay-button').addEventListener('click', function () {
 
+  const email = prompt("Enter your email for delivery:");
+
+  if (!email) return;
+
   var handler = PaystackPop.setup({
-    key: 'https://paystack.shop/pay/gold-execution-framework', // Replace with your Paystack public key
-    email: prompt("Enter your email for delivery:"),
-    amount: 14700 * 100, // $147 in cents (Paystack uses kobo if NGN)
+
+    key: "pk_live_aaf933cf339451d84a1d96f85833a663a9720a99", 
+
+    email: email,
+
+    amount: 14700, // $147 = 14700 cents
+
     currency: "USD",
-    ref: 'GEF-' + Math.floor((Math.random() * 1000000000) + 1),
-    callback: function(response){
-      window.location.href = "success.html?ref=" + response.reference;
+
+    ref: "GEF-" + Date.now(),
+
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "Product",
+          variable_name: "product",
+          value: "Gold Execution Framework Authority Edition"
+        }
+      ]
     },
+
+    callback: function(response){
+
+      window.location.href =
+        "/book-success.html?reference=" + response.reference;
+
+    },
+
     onClose: function(){
-      alert('Transaction cancelled.');
+      alert("Transaction cancelled.");
     }
+
   });
 
   handler.openIframe();
+
 });
 </script>
