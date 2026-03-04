@@ -50,7 +50,8 @@ module.exports = async function handler(req, res) {
           Authorization: `Bearer ${supabaseKey}`
         },
         body: JSON.stringify({
-          reference: reference
+          reference: reference,
+          email: email
         })
       });
 
