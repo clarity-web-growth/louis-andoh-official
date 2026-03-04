@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 
 module.exports = async function handler(req, res) {
+
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
@@ -11,7 +12,6 @@ module.exports = async function handler(req, res) {
   const mailerliteApiKey = process.env.MAILERLITE_API_KEY;
   const groupId = process.env.MAILERLITE_GROUP_ID;
 
-  // Verify Paystack signature
   const hash = crypto
     .createHmac("sha512", paystackSecret)
     .update(JSON.stringify(req.body))
@@ -30,52 +30,56 @@ module.exports = async function handler(req, res) {
   const amount = event.data.amount;
   const email = event.data.customer.email;
 
-  // -----------------------------
-  // 🟡 BOOK PURCHASE (TEST MODE 2 GHS)
-  // -----------------------------
+  /* ------------------------------
+     BOOK PAYMENT TEST (2 GHS)
+  ------------------------------ */
+
   if (amount === 200) {
 
     const reference = event.data.reference;
 
-    console.log("Book purchase webhook received:", reference);
+    console.log("Book payment received:", reference);
 
     try {
+
       await fetch(`${supabaseUrl}/rest/v1/downloads`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          Authorization: `Bearer ${supabaseKey}`
         },
         body: JSON.stringify({
-          reference: reference,
-        }),
+          reference: reference
+        })
       });
 
-      // Add to MailerLite
       await fetch("https://connect.mailerlite.com/api/subscribers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${mailerliteApiKey}`,
+          Authorization: `Bearer ${mailerliteApiKey}`
         },
         body: JSON.stringify({
           email: email,
-          groups: [groupId],
-        }),
+          groups: [groupId]
+        })
       });
 
       return res.status(200).json({ success: true });
 
     } catch (error) {
+
       console.error("Book webhook failed:", error);
       return res.status(500).json({ error: "Book webhook failed" });
+
     }
   }
 
-  // -----------------------------
-  // 🔴 ADVISORY PAYMENT
-  // -----------------------------
+  /* ------------------------------
+     ADVISORY PAYMENT
+  ------------------------------ */
+
   if (amount === 3660000) {
 
     const bookReference = event.data.metadata?.book_reference;
@@ -85,6 +89,7 @@ module.exports = async function handler(req, res) {
     }
 
     try {
+
       await fetch(
         `${supabaseUrl}/rest/v1/advisory_access?book_reference=eq.${bookReference}`,
         {
@@ -92,24 +97,24 @@ module.exports = async function handler(req, res) {
           headers: {
             "Content-Type": "application/json",
             apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
+            Authorization: `Bearer ${supabaseKey}`
           },
           body: JSON.stringify({
-            enrollment_paid: true,
-          }),
+            enrollment_paid: true
+          })
         }
       );
 
       return res.status(200).json({ success: true });
 
     } catch (error) {
+
       console.error("Advisory webhook failed:", error);
       return res.status(500).json({ error: "Advisory webhook failed" });
+
     }
   }
 
   return res.status(200).json({ received: true });
-}
 
-  return res.status(200).json({ received: true });
-}
+};
