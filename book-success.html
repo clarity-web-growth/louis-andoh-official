@@ -71,7 +71,7 @@
   const errorMsg = document.getElementById("errorMsg");
 
   if (reference) {
-    downloadBtn.href = `/api/download?reference=${reference}`;
+    downloadBtn.href = `/api/download?token=${token}`;
     downloadBtn.textContent = "Download The Framework";
     downloadBtn.style.pointerEvents = "auto";
     downloadBtn.style.opacity = "1";
