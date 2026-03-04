@@ -97,9 +97,15 @@ Digital delivery. Order ID issued upon purchase.
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+const button = document.getElementById("pay-button");
+
+button.addEventListener("click", function () {
+
 const email = document.getElementById("email-input").value;
 
-if(!email){
+if (!email) {
 alert("Please enter your email");
 return;
 }
@@ -110,7 +116,7 @@ key: "pk_live_aaf933cf339451d84a1d96f85833a663a9720a99",
 
 email: email,
 
-amount: 169700,
+amount: 169700, // GHS 1697 in pesewas
 
 currency: "GHS",
 
@@ -130,6 +136,8 @@ alert("Transaction cancelled.");
 });
 
 handler.openIframe();
+
+});
 
 });
 </script>
