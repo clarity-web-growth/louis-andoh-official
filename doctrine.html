@@ -97,11 +97,12 @@ Digital delivery. Order ID issued upon purchase.
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
-document.getElementById('pay-button').addEventListener('click', function () {
+const email = document.getElementById("email-input").value;
 
-const email = prompt("Enter your email for delivery:");
-
-if (!email) return;
+if(!email){
+alert("Please enter your email");
+return;
+}
 
 var handler = PaystackPop.setup({
 
