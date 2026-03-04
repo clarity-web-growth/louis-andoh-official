@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   try {
-    // Get record
+
     const response = await fetch(
       `${supabaseUrl}/rest/v1/downloads?reference=eq.${reference}`,
       {
@@ -32,13 +32,26 @@ export default async function handler(req, res) {
     }
 
     const record = data[0];
-    const downloadCount = record.download_count || 0;
 
-    // ❌ Block if downloads exceed limit
+    const downloadCount = record.download_count || 0;
+    const createdAt = new Date(record.created_at);
+    const now = new Date();
+
+    const hoursSincePurchase =
+      (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+
+    // ❌ Block if more than 24 hours
+    if (hoursSincePurchase > 24) {
+      return res
+        .status(403)
+        .send("Download window expired. Contact support.");
+    }
+
+    // ❌ Block if download limit reached
     if (downloadCount >= 2) {
       return res
         .status(403)
-        .send("Download limit reached. Contact support if needed.");
+        .send("Download limit reached.");
     }
 
     // ✅ Increment download counter
@@ -58,7 +71,6 @@ export default async function handler(req, res) {
       }
     );
 
-    // Serve the PDF
     const filePath = path.join(
       process.cwd(),
       "api",
