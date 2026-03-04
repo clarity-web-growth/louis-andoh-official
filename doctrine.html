@@ -1,3 +1,7 @@
+<footer>
+  © 2026 Louis Andoh. All rights reserved.
+</footer>
+
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
@@ -8,32 +12,19 @@ document.getElementById('pay-button').addEventListener('click', function () {
   if (!email) return;
 
   var handler = PaystackPop.setup({
-
-    key: "pk_live_aaf933cf339451d84a1d96f85833a663a9720a99", 
+    key: "pk_live_aaf933cf339451d84a1d96f85833a663a9720a99",
 
     email: email,
 
-    amount: 14700, // $147 = 14700 cents
+    amount: 14700,
 
     currency: "USD",
 
     ref: "GEF-" + Date.now(),
 
-    metadata: {
-      custom_fields: [
-        {
-          display_name: "Product",
-          variable_name: "product",
-          value: "Gold Execution Framework Authority Edition"
-        }
-      ]
-    },
-
     callback: function(response){
-
       window.location.href =
         "/book-success.html?reference=" + response.reference;
-
     },
 
     onClose: function(){
@@ -46,3 +37,6 @@ document.getElementById('pay-button').addEventListener('click', function () {
 
 });
 </script>
+
+</body>
+</html>
