@@ -34,7 +34,7 @@ module.exports = async function handler(req, res) {
      BOOK PAYMENT TEST (2 GHS)
   ------------------------------ */
 
-  if (amount === 200) {
+  if (amount === 169700) {
 
     const reference = event.data.reference;
 
